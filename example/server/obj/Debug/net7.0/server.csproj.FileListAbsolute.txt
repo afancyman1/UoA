@@ -1,0 +1,15 @@
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\bin\Debug\net7.0\server.exe
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\bin\Debug\net7.0\server.deps.json
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\bin\Debug\net7.0\server.runtimeconfig.json
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\bin\Debug\net7.0\server.dll
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\bin\Debug\net7.0\server.pdb
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.csproj.AssemblyReference.cache
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.AssemblyInfoInputs.cache
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.AssemblyInfo.cs
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.csproj.CoreCompileInputs.cache
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.dll
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\refint\server.dll
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.pdb
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\server.genruntimeconfig.cache
+C:\Users\xye002\OneDrive - The University of Auckland\Documents\work\Teaching\711\asg\2023\example\server\obj\Debug\net7.0\ref\server.dll
