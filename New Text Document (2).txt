@@ -1,0 +1,200 @@
+在这部分，你需要实现客户端程序、缓存和服务端。 三个程序的要求如下：
+• 客户端程序应提供一个 GUI 界面，(a) 允许用户显示服务器上可用的文件列表，(b) 允许用户从可用文件列表中选择一个文件进行下载，
+
+
+
+
+
+
+
+private List<string> GetFileList()
+        {
+            using (TcpClient client = ConnectToServer())
+            using (NetworkStream stream = client.GetStream())
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+            {
+                writer.WriteLine("LIST");
+                string fileListString;
+                while ((fileListString = reader.ReadLine()) != null)
+                {
+                    fileListString.Split(',').ToList();
+                }
+                return fileListString;
+            
+            }
+        }
+
+
+
+
+try
+            {
+                int port = 8081;
+                IPAddress ipAddr = IPAddress.Loopback;
+                client1 = new TcpClient(ipAddr.ToString(), port);
+                Console.WriteLine("connected to server");
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+
+
+
+
+
+
+
+您的实现必须基于 C# 并使用 .NET 7 Core 框架（在实验室机器上可用）。 实现必须基于套接字编程，例如 C# 中的 TcpClient。 您的程序使用的端口号必须在 8080 到 8099 范围内
+在这部分，你需要实现客户端程序、缓存和服务端。 三个程序的要求如下：
+• 客户端程序应提供一个 GUI 界面，(a) 允许用户显示服务器上可用的文件列表，(b) 允许用户从可用文件列表中选择一个文件进行下载，以及（ c) 允许用户显示下载文件的内容。 在此选项中，您可以假设要下载的文件是文本文件。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+namespace server
+{
+    public partial class Form1 : Form
+    {
+        private const int port = 8081;
+        private TcpListener listener;
+        private Thread serverThread1;
+        private List<string> files = new List<string>();
+        public Form1()
+        {
+            InitializeComponent();
+            StartServer();
+        }
+
+        private void StartServer()
+        {
+            Console.WriteLine("Server starting !");
+            IPAddress ipAddr = IPAddress.Loopback;
+            TcpListener listener = new TcpListener(ipAddr, port);
+            listener.Start();
+            Console.WriteLine($"Server started on port {port}");
+
+            serverThread1 = new Thread(() =>
+            {
+                while (true)
+                {
+                    TcpClient client = listener.AcceptTcpClient();
+                    Console.WriteLine("clinet connected");
+                    Thread clientThread = new Thread(() => HandleClient(client));
+                    clientThread.Start();
+                }
+            });
+            serverThread1.IsBackground = true;
+            serverThread1.Start();
+        }
+
+        private void HandleClient(TcpClient client)
+        {
+            using (client)
+            using (NetworkStream stream = client.GetStream())
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+            {
+                string command = reader.ReadLine();
+
+                if (command == "LIST")
+                {
+                    string fileListString = string.Join(",", files);
+                    writer.WriteLine(fileListString);
+                }
+                // 根据需求，可以在此处添加其他命令的处理逻辑
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+
+
+
+
+
+namespace client
+{
+    public partial class client : Form
+    {
+        private TcpClient _client;
+        public client()
+        {
+            InitializeComponent();
+            ConnectToServer();
+        }
+
+        private TcpClient ConnectToServer()
+        {
+            try 
+            {
+                int port = 8081;
+                IPAddress ipAddr = IPAddress.Loopback;
+                _client = new TcpClient(ipAddr.ToString(), port);
+                Console.WriteLine("connected to server");
+                return _client;
+            }
+               catch(Exception ex) { MessageBox.Show($"连接服务器失败：{ex.Message}"); return null; }
+        }
+
+        private void client_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void showList_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (TcpClient client = ConnectToServer())
+                using (NetworkStream stream = client.GetStream())
+                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+                {
+                    //将LIST命令写入流中
+                    writer.WriteLine("LIST");
+                    string fileListString;
+                    List<string> fileList = new List<string>();
+                    while ((fileListString = reader.ReadLine()) != null)
+                    {
+                        fileList = fileListString.Split(',').ToList();
+                    }
+                    //更新listbox1的信息
+                    //将fileList中的所有项添加到ListBox中
+                    listBox1.Items.Clear();
+                    listBox1.Items.AddRange(fileList.ToArray());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"连接服务器失败：{ex.Message}");
+            }
+            
+        }
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
