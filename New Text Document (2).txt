@@ -1,161 +1,46 @@
-在这部分，你需要实现客户端程序、缓存和服务端。 三个程序的要求如下：
-• 客户端程序应提供一个 GUI 界面，(a) 允许用户显示服务器上可用的文件列表，(b) 允许用户从可用文件列表中选择一个文件进行下载，
-
-
-
-
-
-
-
-private List<string> GetFileList()
-        {
-            using (TcpClient client = ConnectToServer())
-            using (NetworkStream stream = client.GetStream())
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
-            {
-                writer.WriteLine("LIST");
-                string fileListString;
-                while ((fileListString = reader.ReadLine()) != null)
-                {
-                    fileListString.Split(',').ToList();
-                }
-                return fileListString;
-            
-            }
-        }
-
-
-
-
-try
-            {
-                int port = 8081;
-                IPAddress ipAddr = IPAddress.Loopback;
-                client1 = new TcpClient(ipAddr.ToString(), port);
-                Console.WriteLine("connected to server");
-            }
-            catch (Exception e) { Console.WriteLine(e.Message); }
-
-
-
-
-
-
-
-您的实现必须基于 C# 并使用 .NET 7 Core 框架（在实验室机器上可用）。 实现必须基于套接字编程，例如 C# 中的 TcpClient。 您的程序使用的端口号必须在 8080 到 8099 范围内
-在这部分，你需要实现客户端程序、缓存和服务端。 三个程序的要求如下：
-• 客户端程序应提供一个 GUI 界面，(a) 允许用户显示服务器上可用的文件列表，(b) 允许用户从可用文件列表中选择一个文件进行下载，以及（ c) 允许用户显示下载文件的内容。 在此选项中，您可以假设要下载的文件是文本文件。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 using System.Net;
+using System;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
-
-namespace server
-{
-    public partial class Form1 : Form
-    {
-        private const int port = 8081;
-        private TcpListener listener;
-        private Thread serverThread1;
-        private List<string> files = new List<string>();
-        public Form1()
-        {
-            InitializeComponent();
-            StartServer();
-        }
-
-        private void StartServer()
-        {
-            Console.WriteLine("Server starting !");
-            IPAddress ipAddr = IPAddress.Loopback;
-            TcpListener listener = new TcpListener(ipAddr, port);
-            listener.Start();
-            Console.WriteLine($"Server started on port {port}");
-
-            serverThread1 = new Thread(() =>
-            {
-                while (true)
-                {
-                    TcpClient client = listener.AcceptTcpClient();
-                    Console.WriteLine("clinet connected");
-                    Thread clientThread = new Thread(() => HandleClient(client));
-                    clientThread.Start();
-                }
-            });
-            serverThread1.IsBackground = true;
-            serverThread1.Start();
-        }
-
-        private void HandleClient(TcpClient client)
-        {
-            using (client)
-            using (NetworkStream stream = client.GetStream())
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
-            {
-                string command = reader.ReadLine();
-
-                if (command == "LIST")
-                {
-                    string fileListString = string.Join(",", files);
-                    writer.WriteLine(fileListString);
-                }
-                // 根据需求，可以在此处添加其他命令的处理逻辑
-            }
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-    }
-}
-
-
-
-
-
-
+using System.Windows;
 namespace client
 {
     public partial class client : Form
     {
         private TcpClient _client;
+        private TcpClient _cacheClient;
         public client()
         {
             InitializeComponent();
             ConnectToServer();
+            ConnectToCache();
         }
 
         private TcpClient ConnectToServer()
         {
             try 
             {
-                int port = 8081;
+                int serverport = 8081;
                 IPAddress ipAddr = IPAddress.Loopback;
-                _client = new TcpClient(ipAddr.ToString(), port);
+                _client = new TcpClient(ipAddr.ToString(), serverport);
                 Console.WriteLine("connected to server");
                 return _client;
             }
                catch(Exception ex) { MessageBox.Show($"连接服务器失败：{ex.Message}"); return null; }
+        }
+
+        private TcpClient ConnectToCache()
+        {
+            try
+            {
+                int cacheport = 8082;
+                IPAddress ipAddr = IPAddress.Loopback;
+                _cacheClient = new TcpClient(ipAddr.ToString(), cacheport);
+                Console.WriteLine("connected to cache");
+                return _cacheClient;
+            }
+            catch (Exception ex) { MessageBox.Show($"连接缓存失败：{ex.Message}"); return null; }
         }
 
         private void client_Load(object sender, EventArgs e)
@@ -165,6 +50,7 @@ namespace client
 
         private void showList_Click(object sender, EventArgs e)
         {
+            available_files.Items.Clear();
             try
             {
                 using (TcpClient client = ConnectToServer())
@@ -182,8 +68,9 @@ namespace client
                     }
                     //更新listbox1的信息
                     //将fileList中的所有项添加到ListBox中
-                    listBox1.Items.Clear();
-                    listBox1.Items.AddRange(fileList.ToArray());
+                    available_files.Items.Clear();
+                    available_files.Items.AddRange(fileList.ToArray());
+                    
                 }
             }
             catch (Exception ex)
@@ -196,5 +83,421 @@ namespace client
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            available_files.Items.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (available_files.SelectedItem == null)
+            {
+                MessageBox.Show("请选择一个文件。");
+                return;
+            }
+
+            string fileName = available_files.SelectedItem.ToString();
+
+            try
+            {
+                using (TcpClient client = ConnectToServer())
+                using (NetworkStream stream = client.GetStream())
+                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+                {
+                    //将GET_CONTENT命令写入流中
+                    writer.WriteLine($"GET_CONTENT {fileName}");
+                    string fileContent = reader.ReadLine();
+                    textBox1.Text = fileContent;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"连接服务器失败：{ex.Message}");
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+server
+
+
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+namespace server
+{
+    public partial class Form1 : Form
+    {
+        private const int port = 8081;
+        private TcpListener listener;
+        private Thread serverThread;
+        private List<string> files = new List<string>();
+        public Form1()
+        {
+            InitializeComponent();
+            StartServer();
+        }
+
+        private void StartServer()
+        {
+            Console.WriteLine("Server starting !");
+            IPAddress ipAddr = IPAddress.Loopback;
+            TcpListener listener = new TcpListener(ipAddr, port);
+            listener.Start();
+            Console.WriteLine($"Server started on port {port}");
+            serverThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    TcpClient client = listener.AcceptTcpClient();
+                    Console.WriteLine("clinet connected");
+                    Thread clientThread= new Thread(() => HandleClient(client));
+                    clientThread.Start();
+                };
+            });
+            serverThread.IsBackground = true;
+            serverThread.Start();
+        }
+
+        private void HandleClient(TcpClient client)
+        {
+            using (client)
+            using (NetworkStream stream = client.GetStream())
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+            {
+                string command = reader.ReadLine();
+                //获取当前应用的路径，并将其与data文件夹结合
+                string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
+                string folderPath = Path.Combine(currentFolderPath, "../../../available_files");
+                if (command == "LIST")
+                {
+                    files.Clear();
+                    
+                    try
+                    {
+                        string[] allFiles = Directory.GetFiles(folderPath);
+                        // 提取文件名列表
+                        foreach (string file in allFiles)
+                        {
+                            string fileName = Path.GetFileName(file);
+                            files.Add(fileName);
+                        }
+                        // 将文件名列表转换为逗号分隔的字符串
+                        string fileListString = string.Join(",", files);
+                        writer.WriteLine(fileListString);
+                        //writer.WriteLine("hello henry,hello mick");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                        writer.WriteLine("Error: Could not read files from the directory");
+                    }
+
+                }
+                else if (command.StartsWith("GET_FILE"))
+                {
+                    string fileName = command.Substring("GET_FILE".Length).Trim();
+                    string filePath = Path.Combine(folderPath, fileName);
+
+                    if (File.Exists(filePath))
+                    {
+                        try
+                        {
+                            using (FileStream fileStream = File.OpenRead(filePath))
+                            {
+                                fileStream.CopyTo(stream);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                            writer.WriteLine("Error: Could not send the file");
+                        }
+                    }
+                    else
+                    {
+                        writer.WriteLine("Error: File not found");
+                    }
+                }
+                // 根据需求，可以在此处添加其他命令的处理逻辑
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
+            string folderPath = Path.Combine(currentFolderPath, "../../../available_files");
+            string[] allFiles = Directory.GetFiles(folderPath);
+            List<string> fileNames = new List<string>();
+
+            foreach (string file in allFiles)
+            {
+                string fileName = Path.GetFileName(file);
+                fileNames.Add(fileName);
+            }
+
+            available_files.Items.Clear();
+            available_files.Items.AddRange(fileNames.ToArray());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
+            string folderPath = Path.Combine(currentFolderPath, "../../../all_files");
+            string[] allFiles = Directory.GetFiles(folderPath);
+            List<string> fileNames = new List<string>();
+
+            foreach (string file in allFiles)
+            {
+                string fileName = Path.GetFileName(file);
+                fileNames.Add(fileName);
+            }
+
+            all_files.Items.Clear();
+            all_files.Items.AddRange(fileNames.ToArray());
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (all_files.SelectedItem == null)
+            {
+                MessageBox.Show("请选择一个文件。");
+                return;
+            }
+
+            string fileName = all_files.SelectedItem.ToString();
+            string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
+            string allFilesFolderPath = Path.Combine(currentFolderPath, "../../../all_files");
+            string availableFilesFolderPath = Path.Combine(currentFolderPath, "../../../available_files");
+
+            string sourceFilePath = Path.Combine(allFilesFolderPath, fileName);
+            string destinationFilePath = Path.Combine(availableFilesFolderPath, fileName);
+            if (File.Exists(destinationFilePath))
+            {
+                MessageBox.Show($"文件夹已经存在：{fileName}");
+                return;
+            }
+            try
+            {
+                File.Copy(sourceFilePath, destinationFilePath, overwrite: true);
+                available_files.Items.Add(fileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"无法复制文件：{ex.Message}");
+            }
+        }
+
+
+        private void all_files_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace WinFormsApp1
+{
+    public partial class Cache : Form
+    {
+        private const int serverport = 8081;
+        private Thread cacheThread;
+        private const int cacheport = 8082;
+        public Cache()
+        {
+            InitializeComponent();
+            StartCache();
+        }
+        private void StartCache()
+        {
+            Console.WriteLine("Cache starting !");
+            IPAddress ipAddr = IPAddress.Loopback;
+            TcpListener listener = new TcpListener(ipAddr, cacheport);
+            listener.Start();
+            Console.WriteLine($"Cache started on port {cacheport}");
+            cacheThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    TcpClient client = listener.AcceptTcpClient();
+                    Console.WriteLine("Client connected to cache");
+                    Thread clientThread = new Thread(() => HandleClient(client));
+                    clientThread.Start();
+                }
+            });
+            cacheThread.IsBackground = true;
+            cacheThread.Start();
+        }
+        private TcpClient ConnectToServer()
+        {
+            try
+            {
+                int port = 8081;
+                IPAddress ipAddr = IPAddress.Loopback;
+                TcpClient serverClient = new TcpClient(ipAddr.ToString(), port);
+                Console.WriteLine("connected to main server");
+                return serverClient;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"连接服务器失败：{ex.Message}");
+                return null;
+            }
+        }
+
+        private void HandleClient(TcpClient client)
+        {
+            using (client)
+            using (NetworkStream stream = client.GetStream())
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+            {
+                string command = reader.ReadLine();
+
+                // 获取当前应用的路径，并将其与 cache_files 文件夹结合
+                string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
+                string cacheFolderPath = Path.Combine(currentFolderPath, "../../../cachefiles");
+
+                if (command.StartsWith("GET_CONTENT"))
+                {
+                    string fileName = command.Substring("GET_CONTENT".Length).Trim();
+                    string cachedFilePath = Path.Combine(cacheFolderPath, fileName);
+
+                    if (File.Exists(cachedFilePath))
+                    {
+                        // 如果文件已经缓存在 cache 中，直接向客户端返回文件内容
+                        string fileContent = File.ReadAllText(cachedFilePath);
+                        writer.WriteLine(fileContent);
+                    }
+                    else
+                    {
+                        // 否则，向主服务器请求文件
+                        try
+                        {
+                            using (TcpClient serverClient = ConnectToServer())
+                            using (NetworkStream serverStream = serverClient.GetStream())
+                            using (StreamReader serverReader = new StreamReader(serverStream, Encoding.UTF8))
+                            using (StreamWriter serverWriter = new StreamWriter(serverStream, Encoding.UTF8) { AutoFlush = true })
+                            {
+                                // 将 GET_CONTENT 命令写入主服务器的流中
+                                serverWriter.WriteLine($"GET_CONTENT {fileName}");
+                                string fileContent = serverReader.ReadLine();
+
+                                if (!string.IsNullOrEmpty(fileContent))
+                                {
+                                    // 将文件内容写入缓存
+                                    File.WriteAllText(cachedFilePath, fileContent);
+
+                                    // 向客户端返回文件内容
+                                    writer.WriteLine(fileContent);
+                                }
+                                else
+                                {
+                                    writer.WriteLine("Error: File not found");
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"连接服务器失败：{ex.Message}");
+                        }
+                    }
+                }
+
+                // 根据需求，可以在此处添加其他命令的处理逻辑
+            }
+        }
+
+
+
+
+
+
+        private void show_files_button_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clear_selected_file_button_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void file_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+
+
+
+user request: file xyz at 10:27:00 2023-03-01
+response: cached file xyz
+or
+user request: file xyz at 10:27:00 2023-03-01
+response: file xyz downloaded from the server
+
+
+
