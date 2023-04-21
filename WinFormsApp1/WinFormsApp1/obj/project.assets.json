@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hliu825\\source\\repos\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
-      "projectName": "WinFormsApp1",
-      "projectPath": "C:\\Users\\hliu825\\source\\repos\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
+      "projectUniqueName": "C:\\Users\\hliu825\\Desktop\\New folder\\UoA\\WinFormsApp1\\WinFormsApp1\\cache.csproj",
+      "projectName": "cache",
+      "projectPath": "C:\\Users\\hliu825\\Desktop\\New folder\\UoA\\WinFormsApp1\\WinFormsApp1\\cache.csproj",
       "packagesPath": "C:\\Users\\hliu825\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hliu825\\source\\repos\\WinFormsApp1\\WinFormsApp1\\obj\\",
+      "outputPath": "C:\\Users\\hliu825\\Desktop\\New folder\\UoA\\WinFormsApp1\\WinFormsApp1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

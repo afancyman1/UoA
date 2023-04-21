@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsApp1", "WinFormsApp1\WinFormsApp1.csproj", "{13A42510-62FD-483B-807C-AC0D33E9B5A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cache", "WinFormsApp1\cache.csproj", "{13A42510-62FD-483B-807C-AC0D33E9B5A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

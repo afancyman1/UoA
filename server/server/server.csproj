@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="available_files\" />
+    <Folder Include="block\" />
   </ItemGroup>
 
 </Project>
