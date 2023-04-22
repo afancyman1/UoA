@@ -55,6 +55,7 @@ namespace server
                 //获取当前应用的路径，并将其与data文件夹结合
                 string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
                 string folderPath = Path.Combine(currentFolderPath, "../../../available_files");
+                string folderPath2 = Path.Combine(currentFolderPath, "../../../block");
                 string hashFilePath = Path.Combine(currentFolderPath, "../../../hash.txt");
                 if (command == "LIST")
                 {
@@ -84,7 +85,8 @@ namespace server
                 else if (command.StartsWith("GET_CONTENT"))
                 {
                     string fileName = command.Substring("GET_CONTENT".Length).Trim();
-                    string fileFolderPath = Path.Combine(folderPath, fileName);
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName); // 新增此行
+                    string fileFolderPath = Path.Combine(folderPath2, fileNameWithoutExtension); 
                     string[] blockFiles = Directory.GetFiles(fileFolderPath);
 
                     if (blockFiles.Length > 0)

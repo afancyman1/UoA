@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WinFormsApp1
@@ -78,57 +79,90 @@ namespace WinFormsApp1
                 if (command.StartsWith("GET_CONTENT"))
                 {
                     string fileName = command.Substring("GET_CONTENT".Length).Trim();
-                    string cachedFilePath = Path.Combine(cacheFolderPath, fileName);
-
-                    if (File.Exists(cachedFilePath))
+                    string fileFolderPath = Path.Combine(cacheFolderPath, fileName);
+                    // 创建以 fileName 为名的文件夹
+                    Directory.CreateDirectory(fileFolderPath);
+                    try
                     {
-                        // 如果文件已经缓存在 cache 中，直接向客户端返回文件内容
-                        string fileContent = File.ReadAllText(cachedFilePath);
-                        writer.WriteLine(fileContent);
-
-                        // 添加日志条目
-                        AddLogEntry($"user request: file {fileName} at {DateTime.Now}");
-                        AddLogEntry($"response: cached file {fileName}");
-                    }
-                    else
-                    {
-                        // 否则，向主服务器请求文件
-                        try
+                        using (TcpClient serverClient = ConnectToServer())
+                        using (NetworkStream serverStream = serverClient.GetStream())
+                        using (StreamReader serverReader = new StreamReader(serverStream, Encoding.UTF8))
+                        using (StreamWriter serverWriter = new StreamWriter(serverStream, Encoding.UTF8) { AutoFlush = true })
                         {
-                            using (TcpClient serverClient = ConnectToServer())
-                            using (NetworkStream serverStream = serverClient.GetStream())
-                            using (StreamReader serverReader = new StreamReader(serverStream, Encoding.UTF8))
-                            using (StreamWriter serverWriter = new StreamWriter(serverStream, Encoding.UTF8) { AutoFlush = true })
+                            // 将 GET_CONTENT 命令写入主服务器的流中
+                            serverWriter.WriteLine($"GET_CONTENT {fileName}");
+                            //读取文件块数量
+                            byte[] numberOfBlocksBytes = new byte[4];
+                            serverStream.Read(numberOfBlocksBytes, 0, 4);
+                            int numberOfBlocks = BitConverter.ToInt32(numberOfBlocksBytes);
+                            textBox1.Text = numberOfBlocks.ToString();
+                            for (int i = 0; i < numberOfBlocks; i++)
                             {
-                                // 将 GET_CONTENT 命令写入主服务器的流中
-                                serverWriter.WriteLine($"GET_CONTENT {fileName}");
-                                string fileContent = serverReader.ReadLine();
+                                // 读取操作码
+                                byte[] operationCodeBytes = new byte[4];
+                                serverStream.Read(operationCodeBytes, 0, 4);
+                                int operationCode = BitConverter.ToInt32(operationCodeBytes);
 
-                                if (!string.IsNullOrEmpty(fileContent))
+                                if (operationCode == 0) // 操作码为 0
                                 {
-                                    // 将文件内容写入缓存
-                                    File.WriteAllText(cachedFilePath, fileContent);
+                                    // 读取哈希值
+                                    byte[] hashBytes = new byte[32];
+                                    serverStream.Read(hashBytes, 0, 32);
+                                    string hash = Encoding.UTF8.GetString(hashBytes);
 
-                                    // 向客户端返回文件内容
-                                    writer.WriteLine(fileContent);
-                                    // 添加日志条目
-                                    AddLogEntry($"user request: file {fileName} at {DateTime.Now}");
-                                    AddLogEntry($"response: file {fileName} downloaded from the server");
+                                    // 在 block 文件夹中找到哈希值对应的文件块
+                                    string blockFilePath = Path.Combine(currentFolderPath, "../../../block", hash);
+                                    if (File.Exists(blockFilePath))
+                                    {
+                                        // 将文件复制到以请求文件名命名的文件夹中，并使用索引命名
+                                        string destinationFilePath = Path.Combine(fileFolderPath, $"{fileName}_{i + 1}");
+                                        File.Copy(blockFilePath, destinationFilePath);
+                                    }
                                 }
-                                else
+                                else if (operationCode == 1) // 操作码为 1
                                 {
-                                    writer.WriteLine("Error: File not found");
+                                    // 读取文件块长度
+                                    byte[] blockContentLengthBytes = new byte[4];
+                                    serverStream.Read(blockContentLengthBytes, 0, 4);
+                                    int blockContentLength = BitConverter.ToInt32(blockContentLengthBytes);
+
+                                    // 读取文件块内容
+                                    byte[] blockContent = new byte[blockContentLength];
+                                    serverStream.Read(blockContent, 0, blockContentLength);
+
+                                    // 计算哈希值并在 block 文件夹中创建文件
+                                    string blockHash = Calculate(blockContent);
+                                    string blockFilePath = Path.Combine(currentFolderPath, "../../../block", blockHash);
+                                    File.WriteAllBytes(blockFilePath, blockContent);
+                                    // 将文件内容存储在以请求文件名命名的文件夹中，并使用索引命名
+                                    string destinationFilePath = Path.Combine(fileFolderPath, $"{fileName}_{i + 1}");
+                                    File.WriteAllBytes(destinationFilePath, blockContent);
                                 }
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"连接服务器失败：{ex.Message}");
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"连接服务器失败：{ex.Message}");
                     }
                 }
 
                 // 根据需求，可以在此处添加其他命令的处理逻辑
+            }
+        }
+
+
+        private static string Calculate(byte[] input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(input);
+                StringBuilder result = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    result.Append(hashBytes[i].ToString("x2"));
+                }
+                return result.ToString();
             }
         }
 
@@ -195,6 +229,11 @@ namespace WinFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             log_list.Clear();
+        }
+
+        public void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
