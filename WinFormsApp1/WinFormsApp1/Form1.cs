@@ -71,66 +71,64 @@ namespace WinFormsApp1
             {
                 string command = reader.ReadLine();
 
-                // 获取当前应用的路径，并将其与 block 文件夹结合
+                // 获取当前应用的路径，并将其与 cache_files 文件夹结合
                 string currentFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
-                string blockFolderPath = Path.Combine(currentFolderPath, "../../../block");
+                string cacheFolderPath = Path.Combine(currentFolderPath, "../../../cachefiles");
 
                 if (command.StartsWith("GET_CONTENT"))
                 {
                     string fileName = command.Substring("GET_CONTENT".Length).Trim();
+                    string cachedFilePath = Path.Combine(cacheFolderPath, fileName);
 
-                    // 向主服务器请求文件
-                    try
+                    if (File.Exists(cachedFilePath))
                     {
-                        using (TcpClient serverClient = ConnectToServer())
-                        using (NetworkStream serverStream = serverClient.GetStream())
-                        using (StreamReader serverReader = new StreamReader(serverStream, Encoding.UTF8))
-                        using (StreamWriter serverWriter = new StreamWriter(serverStream, Encoding.UTF8) { AutoFlush = true })
+                        // 如果文件已经缓存在 cache 中，直接向客户端返回文件内容
+                        string fileContent = File.ReadAllText(cachedFilePath);
+                        writer.WriteLine(fileContent);
+
+                        // 添加日志条目
+                        AddLogEntry($"user request: file {fileName} at {DateTime.Now}");
+                        AddLogEntry($"response: cached file {fileName}");
+                    }
+                    else
+                    {
+                        // 否则，向主服务器请求文件
+                        try
                         {
-                            // 将 GET_CONTENT 命令写入主服务器的流中
-                            serverWriter.WriteLine($"GET_CONTENT {fileName}");
-
-                            string serverResponse;
-                            StringBuilder fileContentBuilder = new StringBuilder();
-
-                            while ((serverResponse = serverReader.ReadLine()) != "END_OF_BLOCKS")
+                            using (TcpClient serverClient = ConnectToServer())
+                            using (NetworkStream serverStream = serverClient.GetStream())
+                            using (StreamReader serverReader = new StreamReader(serverStream, Encoding.UTF8))
+                            using (StreamWriter serverWriter = new StreamWriter(serverStream, Encoding.UTF8) { AutoFlush = true })
                             {
-                                if (serverResponse.StartsWith("HASH_VALUE"))
-                                {
-                                    string blockHash = serverResponse.Substring("HASH_VALUE".Length).Trim();
-                                    string blockFilePath = Path.Combine(blockFolderPath, blockHash);
+                                // 将 GET_CONTENT 命令写入主服务器的流中
+                                serverWriter.WriteLine($"GET_CONTENT {fileName}");
+                                string fileContent = serverReader.ReadLine();
 
-                                    if (File.Exists(blockFilePath))
-                                    {
-                                        string blockContent = File.ReadAllText(blockFilePath);
-                                        fileContentBuilder.Append(blockContent);
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("Error: Block not found in cache");
-                                        break;
-                                    }
+                                if (!string.IsNullOrEmpty(fileContent))
+                                {
+                                    // 将文件内容写入缓存
+                                    File.WriteAllText(cachedFilePath, fileContent);
+
+                                    // 向客户端返回文件内容
+                                    writer.WriteLine(fileContent);
+                                    // 添加日志条目
+                                    AddLogEntry($"user request: file {fileName} at {DateTime.Now}");
+                                    AddLogEntry($"response: file {fileName} downloaded from the server");
+                                }
+                                else
+                                {
+                                    writer.WriteLine("Error: File not found");
                                 }
                             }
-
-                            if (fileContentBuilder.Length > 0)
-                            {
-                                writer.WriteLine(fileContentBuilder.ToString());
-                                // 添加日志条目
-                                AddLogEntry($"user request: file {fileName} at {DateTime.Now}");
-                                AddLogEntry($"response: file {fileName} downloaded from the server");
-                            }
-                            else
-                            {
-                                writer.WriteLine("Error: File not found");
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"连接服务器失败：{ex.Message}");
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"连接服务器失败：{ex.Message}");
-                    }
                 }
+
+                // 根据需求，可以在此处添加其他命令的处理逻辑
             }
         }
 

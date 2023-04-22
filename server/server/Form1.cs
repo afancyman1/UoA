@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Security.Cryptography;
 using System.Reflection;
+using System;
 
 namespace server
 {
@@ -35,7 +36,7 @@ namespace server
                 {
                     TcpClient client = listener.AcceptTcpClient();
                     Console.WriteLine("clinet connected");
-                    Thread clientThread= new Thread(() => HandleClient(client));
+                    Thread clientThread = new Thread(() => HandleClient(client));
                     clientThread.Start();
                 };
             });
@@ -58,7 +59,7 @@ namespace server
                 if (command == "LIST")
                 {
                     files.Clear();
-                    
+
                     try
                     {
                         string[] allFiles = Directory.GetFiles(folderPath);
@@ -90,25 +91,39 @@ namespace server
                     {
                         Array.Sort(blockFiles, (a, b) => int.Parse(Path.GetFileNameWithoutExtension(a).Split('_')[1]).CompareTo(int.Parse(Path.GetFileNameWithoutExtension(b).Split('_')[1])));
 
+                        //告诉cache有多少个块,转换为4字节的字节数组
+                        int numberOfBlocks = blockFiles.Length;
+                        byte[] numberOfBlocksBytes = BitConverter.GetBytes(numberOfBlocks);
+
+                        // 将文件块数量作为字节数组写入流
+                        stream.Write(numberOfBlocksBytes);
+
                         foreach (string blockFile in blockFiles)
                         {
                             byte[] blockContent = File.ReadAllBytes(blockFile);
                             string blockHash = Calculate(blockContent);
+                            byte[] blockHashBytes = Encoding.UTF8.GetBytes(blockHash);
 
                             if (File.Exists(hashFilePath) && File.ReadLines(hashFilePath).Any(line => line == blockHash))
                             {
-                                // Send the operation code and the hash value
-                                writer.WriteLine($"HASH_VALUE {blockHash}");
+                                // Send the operation code 0 and the hash value
+                                int response = 0;
+                                byte[] respond = BitConverter.GetBytes(response);
+                                stream.Write(respond);
+                                stream.Write(blockHashBytes);
                             }
                             else
                             {
-                                // Send the block content
-                                writer.WriteLine("BLOCK_CONTENT");
-                                writer.WriteLine(Convert.ToBase64String(blockContent));
+                                // Send the operation code 1, the length of the block content, and the block content itself
+                                int response = 1;
+                                byte[] respond = BitConverter.GetBytes(response);
+                                stream.Write(respond);
+                                byte[] blockContentLengthBytes = BitConverter.GetBytes(blockContent.Length);
+                                stream.Write(blockContentLengthBytes);
+                                stream.Write((blockContent));
                                 Calculate(blockContent); // This will add the hash to the hash.txt file
                             }
                         }
-                        writer.WriteLine("END_OF_BLOCKS");
                     }
                     else
                     {
@@ -192,25 +207,19 @@ namespace server
 
         private void all_files_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private static int CalculateHash(byte[] data)
         {
-            int hash = 0;
-            if (data.Length >= 4)
+            using (SHA256 sha256 = SHA256.Create())
             {
-                hash = BitConverter.ToInt32(data, 0);
+                byte[] hashBytes = sha256.ComputeHash(data);
+                int hash = BitConverter.ToInt32(hashBytes, 0);
+                return Math.Abs(hash) % 2048;
             }
-            else
-            {
-                byte[] temp = new byte[4];
-                Array.Copy(data, 0, temp, 0, data.Length);
-                hash = BitConverter.ToInt32(temp, 0);
-            }
-
-            return Math.Abs(hash) % 200;
         }
+
 
         private string Calculate(byte[] data)
         {
@@ -276,27 +285,30 @@ namespace server
 
             int blockStart = 0;
             int blockNumber = 1;
-            byte[] currentData = new byte[3];
-            string folderName = Path.GetFileName(blockFolderPath);
+            int windowSize = 3; // Increase the window size to provide a better distribution of hash values
 
-            for (int i = 0; i < fileContent.Length - 2; i += 3)
+            for (int i = 0; i <= fileContent.Length - windowSize; i++)
             {
-                Array.Copy(fileContent, i, currentData, 0, 3);
-                int hashValue = CalculateHash(currentData);
+                byte[] windowData = new byte[windowSize];
+                Array.Copy(fileContent, i, windowData, 0, windowSize);
+                int hashValue = CalculateHash(windowData);
 
                 if (hashValue == fixedHashValue)
                 {
-                    byte[] block = new byte[i - blockStart + 3];
-                    Array.Copy(fileContent, blockStart, block, 0, block.Length);
+                    int blockSize = i - blockStart + windowSize;
+                    byte[] block = new byte[blockSize];
+                    Array.Copy(fileContent, blockStart, block, 0, blockSize);
                     blocks.Add(block);
 
                     // Save block to file
-                    string blockFileName = $"{folderName}_{blockNumber}.txt"; // Update the file name format with blockNumber
+                    string folderName = Path.GetFileName(blockFolderPath);
+                    string blockFileName = $"{folderName}_{blockNumber}.txt";
                     string blockFilePath = Path.Combine(blockFolderPath, blockFileName);
                     File.WriteAllBytes(blockFilePath, block);
 
-                    blockStart = i + 3;
+                    blockStart = i + windowSize;
                     blockNumber++;
+                    i += windowSize - 1; // Move the index to the end of the window
                 }
             }
 
@@ -307,13 +319,16 @@ namespace server
                 blocks.Add(block);
 
                 // Save block to file
-                string blockFileName = $"{folderName}_{blockNumber}.txt"; // Update the file name format with blockNumber
+                string folderName = Path.GetFileName(blockFolderPath);
+                string blockFileName = $"{folderName}_{blockNumber}.txt";
                 string blockFilePath = Path.Combine(blockFolderPath, blockFileName);
                 File.WriteAllBytes(blockFilePath, block);
             }
 
             return blocks;
         }
+
+
 
 
 

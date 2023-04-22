@@ -15,3 +15,20 @@ C:\Users\hliu825\Desktop\New folder\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7
 C:\Users\hliu825\Desktop\New folder\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.pdb
 C:\Users\hliu825\Desktop\New folder\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.genruntimeconfig.cache
 C:\Users\hliu825\Desktop\New folder\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\ref\cache.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.csproj.AssemblyReference.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\WinFormsApp1.Cache.resources
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.csproj.GenerateResource.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.AssemblyInfoInputs.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.AssemblyInfo.cs
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.csproj.CoreCompileInputs.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\refint\cache.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.pdb
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\bin\Debug\net7.0-windows\cache.exe
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\bin\Debug\net7.0-windows\cache.deps.json
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\bin\Debug\net7.0-windows\cache.runtimeconfig.json
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\bin\Debug\net7.0-windows\cache.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\bin\Debug\net7.0-windows\cache.pdb
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\cache.genruntimeconfig.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\WinFormsApp1\WinFormsApp1\obj\Debug\net7.0-windows\ref\cache.dll

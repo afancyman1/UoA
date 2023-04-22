@@ -501,3 +501,23 @@ response: file xyz downloaded from the server
 
 
 
+
+
+
+
+
+
+
+
+
+
+帮我改一下这个代码，服务器收到GET_CONTENT请求之后，首先识别缓存请求的文件名，之后根据请求的文件名找到block之后服务器会根据该文件名的文件块是否在哈希表中，来向缓存返回不同的操作码。如果是writer.WriteLine($"HASH_VALUE {blockHash}")语句返回内容，那么意味着服务器向缓存发送过该文件块，那么在../../../block文件夹中检索文件名为blockHash的文件块。
+
+
+
+
+
+
+
+
+
