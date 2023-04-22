@@ -8,27 +8,27 @@ namespace client
 {
     public partial class client : Form
     {
-        private TcpClient _client;
+        //private TcpClient _client;
         private TcpClient _cacheClient;
         public client()
         {
             InitializeComponent();
-            ConnectToServer();
+            //ConnectToServer();
             ConnectToCache();
         }
 
-        private TcpClient ConnectToServer()
-        {
-            try 
-            {
-                int serverport = 8081;
-                IPAddress ipAddr = IPAddress.Loopback;
-                _client = new TcpClient(ipAddr.ToString(), serverport);
-                Console.WriteLine("connected to server");
-                return _client;
-            }
-               catch(Exception ex) { MessageBox.Show($"连接服务器失败：{ex.Message}"); return null; }
-        }
+        //private TcpClient ConnectToServer()
+        //{
+        //    try 
+        //    {
+        //        int serverport = 8081;
+        //        IPAddress ipAddr = IPAddress.Loopback;
+        //        _client = new TcpClient(ipAddr.ToString(), serverport);
+        //        Console.WriteLine("connected to server");
+        //        return _client;
+        //    }
+        //       catch(Exception ex) { MessageBox.Show($"连接服务器失败：{ex.Message}"); return null; }
+        //}
 
         private TcpClient ConnectToCache()
         {
@@ -53,8 +53,8 @@ namespace client
             available_files.Items.Clear();
             try
             {
-                using (TcpClient client = ConnectToServer())
-                using (NetworkStream stream = client.GetStream())
+                using (TcpClient cache = ConnectToCache())
+                using (NetworkStream stream = cache.GetStream())
                 using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
                 using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
                 {

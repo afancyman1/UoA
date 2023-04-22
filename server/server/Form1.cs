@@ -17,7 +17,6 @@ namespace server
         {
             InitializeComponent();
             StartServer();
-
         }
 
         private void StartServer()
@@ -34,9 +33,9 @@ namespace server
             {
                 while (true)
                 {
-                    TcpClient client = listener.AcceptTcpClient();
+                    TcpClient cache = listener.AcceptTcpClient();
                     Console.WriteLine("clinet connected");
-                    Thread clientThread = new Thread(() => HandleClient(client));
+                    Thread clientThread = new Thread(() => HandleClient(cache));
                     clientThread.Start();
                 };
             });
@@ -44,10 +43,10 @@ namespace server
             serverThread.Start();
         }
 
-        private void HandleClient(TcpClient client)
+        private void HandleClient(TcpClient cache)
         {
-            using (client)
-            using (NetworkStream stream = client.GetStream())
+            using (cache)
+            using (NetworkStream stream = cache.GetStream())
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
             using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
             {
@@ -85,8 +84,8 @@ namespace server
                 else if (command.StartsWith("GET_CONTENT"))
                 {
                     string fileName = command.Substring("GET_CONTENT".Length).Trim();
-                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName); // 新增此行
-                    string fileFolderPath = Path.Combine(folderPath2, fileNameWithoutExtension); 
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+                    string fileFolderPath = Path.Combine(folderPath2, fileNameWithoutExtension);
                     string[] blockFiles = Directory.GetFiles(fileFolderPath);
 
                     if (blockFiles.Length > 0)
@@ -96,10 +95,12 @@ namespace server
                         //告诉cache有多少个块,转换为4字节的字节数组
                         int numberOfBlocks = blockFiles.Length;
                         byte[] numberOfBlocksBytes = BitConverter.GetBytes(numberOfBlocks);
-
+                        
+                        Invoke((Action)(() => FindError.Text = numberOfBlocks.ToString()));
+                            
                         // 将文件块数量作为字节数组写入流
                         stream.Write(numberOfBlocksBytes);
-
+                        stream.Flush();
                         foreach (string blockFile in blockFiles)
                         {
                             byte[] blockContent = File.ReadAllBytes(blockFile);
@@ -112,7 +113,9 @@ namespace server
                                 int response = 0;
                                 byte[] respond = BitConverter.GetBytes(response);
                                 stream.Write(respond);
+                                stream.Flush();
                                 stream.Write(blockHashBytes);
+                                stream.Flush();
                             }
                             else
                             {
@@ -120,9 +123,12 @@ namespace server
                                 int response = 1;
                                 byte[] respond = BitConverter.GetBytes(response);
                                 stream.Write(respond);
+                                stream.Flush();
                                 byte[] blockContentLengthBytes = BitConverter.GetBytes(blockContent.Length);
                                 stream.Write(blockContentLengthBytes);
+                                stream.Flush();
                                 stream.Write((blockContent));
+                                stream.Flush();
                                 Calculate(blockContent); // This will add the hash to the hash.txt file
                             }
                         }

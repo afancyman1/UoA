@@ -93,22 +93,22 @@ namespace WinFormsApp1
                             serverWriter.WriteLine($"GET_CONTENT {fileName}");
                             //读取文件块数量
                             byte[] numberOfBlocksBytes = new byte[4];
-                            serverStream.Read(numberOfBlocksBytes, 0, 4);
+                            serverStream.Read(numberOfBlocksBytes,0, 4);
                             int numberOfBlocks = BitConverter.ToInt32(numberOfBlocksBytes);
-                            textBox1.Text = numberOfBlocks.ToString();
+                            AddLogEntry($"块数 {numberOfBlocks}");
                             for (int i = 0; i < numberOfBlocks; i++)
                             {
                                 // 读取操作码
                                 byte[] operationCodeBytes = new byte[4];
-                                serverStream.Read(operationCodeBytes, 0, 4);
+                                serverStream.Read(operationCodeBytes,0,4);
                                 int operationCode = BitConverter.ToInt32(operationCodeBytes);
-
+                                AddLogEntry($"操作码 {numberOfBlocks}");
                                 if (operationCode == 0) // 操作码为 0
                                 {
                                     // 读取哈希值
-                                    byte[] hashBytes = new byte[32];
-                                    serverStream.Read(hashBytes, 0, 32);
+                                    byte[] hashBytes = ReadBytes(serverStream, 32);
                                     string hash = Encoding.UTF8.GetString(hashBytes);
+
 
                                     // 在 block 文件夹中找到哈希值对应的文件块
                                     string blockFilePath = Path.Combine(currentFolderPath, "../../../block", hash);
@@ -122,13 +122,11 @@ namespace WinFormsApp1
                                 else if (operationCode == 1) // 操作码为 1
                                 {
                                     // 读取文件块长度
-                                    byte[] blockContentLengthBytes = new byte[4];
-                                    serverStream.Read(blockContentLengthBytes, 0, 4);
+                                    byte[] blockContentLengthBytes = ReadBytes(serverStream, 4);
                                     int blockContentLength = BitConverter.ToInt32(blockContentLengthBytes);
 
                                     // 读取文件块内容
-                                    byte[] blockContent = new byte[blockContentLength];
-                                    serverStream.Read(blockContent, 0, blockContentLength);
+                                    byte[] blockContent = ReadBytes(serverStream, blockContentLength);
 
                                     // 计算哈希值并在 block 文件夹中创建文件
                                     string blockHash = Calculate(blockContent);
@@ -149,6 +147,25 @@ namespace WinFormsApp1
 
                 // 根据需求，可以在此处添加其他命令的处理逻辑
             }
+        }
+
+        private static byte[] ReadBytes(NetworkStream stream, int count)
+        {
+            byte[] buffer = new byte[count];
+            int bytesRead = 0;
+            int remaining = count;
+
+            while (bytesRead < count)
+            {
+                int read = stream.Read(buffer, bytesRead, remaining);
+                if (read == 0)
+                    throw new IOException("读取失败，无法从流中读取更多数据。");
+
+                bytesRead += read;
+                remaining -= read;
+            }
+
+            return buffer;
         }
 
 

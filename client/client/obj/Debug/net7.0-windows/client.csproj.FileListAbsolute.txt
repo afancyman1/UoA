@@ -66,3 +66,20 @@ C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\client\cl
 C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\client\client\obj\Debug\net7.0-windows\client.pdb
 C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\client\client\obj\Debug\net7.0-windows\client.genruntimeconfig.cache
 C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\client\client\obj\Debug\net7.0-windows\ref\client.dll
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\bin\Debug\net7.0-windows\client.exe
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\bin\Debug\net7.0-windows\client.deps.json
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\bin\Debug\net7.0-windows\client.runtimeconfig.json
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\bin\Debug\net7.0-windows\client.dll
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\bin\Debug\net7.0-windows\client.pdb
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.csproj.AssemblyReference.cache
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.client.resources
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.csproj.GenerateResource.cache
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.AssemblyInfoInputs.cache
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.AssemblyInfo.cs
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.csproj.CoreCompileInputs.cache
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.dll
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\refint\client.dll
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.pdb
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\client.genruntimeconfig.cache
+C:\Users\E-Force\Desktop\New folder\UoA\client\client\obj\Debug\net7.0-windows\ref\client.dll

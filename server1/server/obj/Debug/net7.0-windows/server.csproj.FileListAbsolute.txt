@@ -1,0 +1,102 @@
+C:\Users\hliu825\source\repos\server\server\bin\Debug\net7.0-windows\server.exe
+C:\Users\hliu825\source\repos\server\server\bin\Debug\net7.0-windows\server.deps.json
+C:\Users\hliu825\source\repos\server\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+C:\Users\hliu825\source\repos\server\server\bin\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\source\repos\server\server\bin\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.csproj.AssemblyReference.cache
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.Form1.resources
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\refint\server.dll
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+C:\Users\hliu825\source\repos\server\server\obj\Debug\net7.0-windows\ref\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.exe
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.deps.json
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.AssemblyReference.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.Form1.resources
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\refint\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\ref\server.dll
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.exe
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.deps.json
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.AssemblyReference.cache
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.Form1.resources
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\refint\server.dll
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+C:\Users\hliu825\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\ref\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\bin\Debug\net7.0-windows\server.exe
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\bin\Debug\net7.0-windows\server.deps.json
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\bin\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\bin\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.AssemblyReference.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.Form1.resources
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\refint\server.dll
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.pdb
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+C:\Users\hliu825\OneDrive - The University of Auckland\Desktop\111\UoA\server\server\obj\Debug\net7.0-windows\ref\server.dll
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.exe
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.deps.json
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.dll
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\bin\Debug\net7.0-windows\server.pdb
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.AssemblyReference.cache
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.Form1.resources
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.dll
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\refint\server.dll
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.pdb
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+C:\Users\E-Force\Desktop\New folder\UoA\server\server\obj\Debug\net7.0-windows\ref\server.dll
+C:\Users\E-Force\Desktop\server1\server\bin\Debug\net7.0-windows\server.exe
+C:\Users\E-Force\Desktop\server1\server\bin\Debug\net7.0-windows\server.deps.json
+C:\Users\E-Force\Desktop\server1\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+C:\Users\E-Force\Desktop\server1\server\bin\Debug\net7.0-windows\server.dll
+C:\Users\E-Force\Desktop\server1\server\bin\Debug\net7.0-windows\server.pdb
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.csproj.AssemblyReference.cache
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.Form1.resources
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.dll
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\refint\server.dll
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.pdb
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+C:\Users\E-Force\Desktop\server1\server\obj\Debug\net7.0-windows\ref\server.dll
